@@ -23,9 +23,9 @@ int main(int argc, char *argv[])
 {
 	Config::SetDefault("ns3::OnOffApplication::PacketSize", UintegerValue(200));
 	Config::SetDefault("ns3::OnOffApplication::DataRate", StringValue("14kb/s"));
-	std::string animFile = "test6.xml";//设定生成的xml文件名为wxy
+	std::string animFile = "wxy.xml";//设定生成的xml文件名为wxy
 	bool verbose = true;//打开日志记录
-	uint32_t nCsma = 3;//设定csma内的数量为3
+	uint32_t nCsma = 1;//设定csma内的数量为3
 
 	CommandLine cmd;//命令行操作
 	cmd.AddValue("nCsma", "Number of \"extra\" CSMA nodes/devices", nCsma);
@@ -61,27 +61,15 @@ int main(int argc, char *argv[])
 	p2pNodes9.Create(2);
 	NodeContainer p2pNodes10;//copy
 	p2pNodes10.Create(2);
-	NodeContainer p2pNodes11;
-	p2pNodes11.Create(2);
-	NodeContainer p2pNodes12;//copy
-	p2pNodes12.Create(2);
-	NodeContainer p2pNodes13;//copy
-	p2pNodes13.Create(2);
-	NodeContainer p2pNodes14;//copy
-	p2pNodes14.Create(2);
-	NodeContainer p2pNodes15;//copy
-	p2pNodes15.Create(2);
-	NodeContainer p2pNodes16;//copy
-	p2pNodes16.Create(2);
-	NodeContainer p2pNodes17;//copy
-	p2pNodes17.Create(2);
-	NodeContainer p2pNodes18;//copy
-	p2pNodes18.Create(2);
-	NodeContainer p2pNodes19;//copy
-	p2pNodes19.Create(2);
+	
+
+
+
+
 
 	//csma网络中添加P2P的第一个节点
 	NodeContainer csmaNodes;
+	csmaNodes.Create(nCsma);
 	csmaNodes.Add(p2pNodes.Get(1));
 	csmaNodes.Add(p2pNodes2.Get(1));
 	csmaNodes.Add(p2pNodes3.Get(1));
@@ -92,16 +80,8 @@ int main(int argc, char *argv[])
 	csmaNodes.Add(p2pNodes8.Get(1));
 	csmaNodes.Add(p2pNodes9.Get(1));
 	csmaNodes.Add(p2pNodes10.Get(1));
-	csmaNodes.Add(p2pNodes11.Get(1));
-	csmaNodes.Add(p2pNodes12.Get(1));
-	csmaNodes.Add(p2pNodes13.Get(1));
-	csmaNodes.Add(p2pNodes14.Get(1));
-	csmaNodes.Add(p2pNodes15.Get(1));
-	csmaNodes.Add(p2pNodes16.Get(1));
-	csmaNodes.Add(p2pNodes17.Get(1));
-	csmaNodes.Add(p2pNodes18.Get(1));
-	csmaNodes.Add(p2pNodes19.Get(1));
-	csmaNodes.Create(nCsma);
+
+	
 
 
 
@@ -139,33 +119,7 @@ int main(int argc, char *argv[])
 	NetDeviceContainer p2pDevices10;
 	p2pDevices10 = pointToPoint.Install(p2pNodes10);
 
-	NetDeviceContainer p2pDevices11;
-	p2pDevices11 = pointToPoint.Install(p2pNodes11);
-
-	NetDeviceContainer p2pDevices12;
-	p2pDevices12 = pointToPoint.Install(p2pNodes12);
-
-	NetDeviceContainer p2pDevices13;
-	p2pDevices13 = pointToPoint.Install(p2pNodes13);
-
-	NetDeviceContainer p2pDevices14;
-	p2pDevices14 = pointToPoint.Install(p2pNodes14);
-
-	NetDeviceContainer p2pDevices15;
-	p2pDevices15 = pointToPoint.Install(p2pNodes15);
-
-	NetDeviceContainer p2pDevices16;
-	p2pDevices16 = pointToPoint.Install(p2pNodes16);
-
-	NetDeviceContainer p2pDevices17;
-	p2pDevices17 = pointToPoint.Install(p2pNodes17);
-
-	NetDeviceContainer p2pDevices18;
-	p2pDevices18 = pointToPoint.Install(p2pNodes18);
-
-	NetDeviceContainer p2pDevices19;
-	p2pDevices19 = pointToPoint.Install(p2pNodes19);
-
+	
 
 
 
@@ -179,6 +133,7 @@ int main(int argc, char *argv[])
 	csmaDevices = csma.Install(csmaNodes);
 
 	InternetStackHelper stack;//协议安装
+	stack.Install(csmaNodes);
 	stack.Install(p2pNodes.Get(0));
 	stack.Install(p2pNodes2.Get(0));
 	stack.Install(p2pNodes3.Get(0));
@@ -189,16 +144,8 @@ int main(int argc, char *argv[])
 	stack.Install(p2pNodes8.Get(0));
 	stack.Install(p2pNodes9.Get(0));
 	stack.Install(p2pNodes10.Get(0));
-	stack.Install(p2pNodes11.Get(0));
-	stack.Install(p2pNodes12.Get(0));
-	stack.Install(p2pNodes13.Get(0));
-	stack.Install(p2pNodes14.Get(0));
-	stack.Install(p2pNodes15.Get(0));
-	stack.Install(p2pNodes16.Get(0));
-	stack.Install(p2pNodes17.Get(0));
-	stack.Install(p2pNodes18.Get(0));
-	stack.Install(p2pNodes19.Get(0));
-	stack.Install(csmaNodes);
+	
+	
 
 	Ipv4AddressHelper address;//各个p2p网络的IP地址段
 	address.SetBase("10.1.1.0", "255.255.255.0");
@@ -241,41 +188,7 @@ int main(int argc, char *argv[])
 	Ipv4InterfaceContainer p2pInterfaces10;
 	p2pInterfaces10 = address.Assign(p2pDevices10);
 
-	address.SetBase("10.11.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces11;
-	p2pInterfaces11 = address.Assign(p2pDevices11);
-
-	address.SetBase("10.12.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces12;
-	p2pInterfaces12 = address.Assign(p2pDevices12);
-
-	address.SetBase("10.13.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces13;
-	p2pInterfaces13 = address.Assign(p2pDevices13);
-
-	address.SetBase("10.14.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces14;
-	p2pInterfaces14 = address.Assign(p2pDevices14);
-
-	address.SetBase("10.15.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces15;
-	p2pInterfaces15 = address.Assign(p2pDevices15);
-
-	address.SetBase("10.16.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces16;
-	p2pInterfaces16 = address.Assign(p2pDevices16);
-
-	address.SetBase("10.17.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces17;
-	p2pInterfaces17 = address.Assign(p2pDevices17);
-
-	address.SetBase("10.18.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces18;
-	p2pInterfaces18 = address.Assign(p2pDevices18);
-
-	address.SetBase("10.19.1.0", "255.255.255.0");
-	Ipv4InterfaceContainer p2pInterfaces19;
-	p2pInterfaces19 = address.Assign(p2pDevices19);
+	
 
 	address.SetBase("10.1.2.0", "255.255.255.0");//csma的IP地址段
 	Ipv4InterfaceContainer csmaInterfaces;
@@ -286,7 +199,7 @@ int main(int argc, char *argv[])
 
 	ApplicationContainer serverApps = echoServer.Install(csmaNodes.Get(0));//将Server服务安装在CSMA网段的最后一个节点上
 	serverApps.Start(Seconds(1.0));
-	serverApps.Stop(Seconds(10.0));
+	serverApps.Stop(Seconds(40.0));
 
 	UdpEchoClientHelper echoClient(csmaInterfaces.GetAddress(0), 9);
 	echoClient.SetAttribute("MaxPackets", UintegerValue(1));
@@ -294,25 +207,86 @@ int main(int argc, char *argv[])
 	echoClient.SetAttribute("PacketSize", UintegerValue(1024));
 
 
+
+
+
+
 	//将Client服务安装在P2P网段的第一个节点上
 	ApplicationContainer clientApps = echoClient.Install(p2pNodes.Get(0));
 	clientApps.Start(Seconds(2.0));
-	clientApps.Stop(Seconds(10.0));
+	clientApps.Stop(Seconds(4.0));
 
 	ApplicationContainer clientApps2 = echoClient.Install(p2pNodes2.Get(0));
-	clientApps2.Start(Seconds(2.0));
-	clientApps2.Stop(Seconds(10.0));
+	clientApps2.Start(Seconds(4.0));
+	clientApps2.Stop(Seconds(6.0));
 
 	ApplicationContainer clientApps3 = echoClient.Install(p2pNodes3.Get(0));
-	clientApps3.Start(Seconds(2.0));
-	clientApps3.Stop(Seconds(10.0));
+	clientApps3.Start(Seconds(6.0));
+	clientApps3.Stop(Seconds(8.0));
+
+	ApplicationContainer clientApps4 = echoClient.Install(p2pNodes4.Get(0));
+	clientApps4.Start(Seconds(8.0));
+	clientApps4.Stop(Seconds(10.0));
+
+	ApplicationContainer clientApps5 = echoClient.Install(p2pNodes5.Get(0));
+	clientApps5.Start(Seconds(10.0));
+	clientApps5.Stop(Seconds(12.0));
+
+	ApplicationContainer clientApps6 = echoClient.Install(p2pNodes6.Get(0));
+	clientApps6.Start(Seconds(12.0));
+	clientApps6.Stop(Seconds(14.0));
+
+	ApplicationContainer clientApps7 = echoClient.Install(p2pNodes7.Get(0));
+	clientApps7.Start(Seconds(14.0));
+	clientApps7.Stop(Seconds(16.0));
+
+	ApplicationContainer clientApps8 = echoClient.Install(p2pNodes8.Get(0));
+	clientApps8.Start(Seconds(16.0));
+	clientApps8.Stop(Seconds(18.0));
+
+	ApplicationContainer clientApps9 = echoClient.Install(p2pNodes9.Get(0));
+	clientApps9.Start(Seconds(18.0));
+	clientApps9.Stop(Seconds(20.0));
+
+	ApplicationContainer clientApps10 = echoClient.Install(p2pNodes10.Get(0));
+	clientApps10.Start(Seconds(20.0));
+	clientApps10.Stop(Seconds(22.0));
+
+
+
+
 
 	Ipv4GlobalRoutingHelper::PopulateRoutingTables(); //全局路由管理器根据节点产生的链路通告为每个节点建立路由表
 
-	pointToPoint.EnablePcapAll("wxy");//开启P2PHelper类对象的pcap
-	csma.EnablePcap("wxy", csmaDevices.Get(1), true);//开启csmaHelper类对象的pcap,使用csma网段第二个节点进行sniff，True开启混杂模式
+	//pointToPoint.EnablePcapAll("wxy");//开启P2PHelper类对象的pcap
+	//csma.EnablePcap("wxy", csmaDevices.Get(2), true);//开启csmaHelper类对象的pcap,使用csma网段第二个节点进行sniff，True开启混杂模式
 
 	AnimationInterface anim(animFile);//输出
+
+	anim.SetConstantPosition(p2pNodes.Get(0), 10, 10);
+	anim.SetConstantPosition(p2pNodes.Get(1), 30, 10);
+	anim.SetConstantPosition(p2pNodes2.Get(0), 10, 20);
+	anim.SetConstantPosition(p2pNodes2.Get(1), 30, 20);
+	anim.SetConstantPosition(p2pNodes3.Get(0), 10, 30);
+	anim.SetConstantPosition(p2pNodes3.Get(1), 30, 30);
+	anim.SetConstantPosition(p2pNodes4.Get(0), 10, 40);
+	anim.SetConstantPosition(p2pNodes4.Get(1), 30, 40);
+	anim.SetConstantPosition(p2pNodes5.Get(0), 10, 50);
+	anim.SetConstantPosition(p2pNodes5.Get(1), 30, 50);
+	anim.SetConstantPosition(p2pNodes6.Get(0), 10, 60);
+	anim.SetConstantPosition(p2pNodes6.Get(1), 30, 60);
+	anim.SetConstantPosition(p2pNodes7.Get(0), 10, 70);
+	anim.SetConstantPosition(p2pNodes7.Get(1), 30, 70);
+	anim.SetConstantPosition(p2pNodes8.Get(0), 10, 80);
+	anim.SetConstantPosition(p2pNodes8.Get(1), 30, 80);
+	anim.SetConstantPosition(p2pNodes9.Get(0), 10, 90);
+	anim.SetConstantPosition(p2pNodes9.Get(1), 30, 90);
+	anim.SetConstantPosition(p2pNodes10.Get(0), 10, 100);
+	anim.SetConstantPosition(p2pNodes10.Get(1), 30, 100);
+//anim.SetConstantPosition(csmaNodes.Get(2), 70, 30);
+anim.SetConstantPosition(csmaNodes.Get(0), 90, 50);
+//anim.SetConstantPosition(csmaNodes.Get(1), 70, 70);
+
 	Simulator::Run();
 	Simulator::Destroy();
 	return 0;
